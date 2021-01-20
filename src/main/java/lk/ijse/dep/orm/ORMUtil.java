@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 public class ORMUtil {
@@ -83,6 +84,14 @@ public class ORMUtil {
 
             ddl = ddl.substring(0, ddl.length() - 2) +  ");\n";
             sqlScript += ddl;
+        }
+        try {
+            Statement stm = connection.createStatement();
+            System.out.println(sqlScript);
+            stm.execute(sqlScript);
+            connection.close();
+        } catch (SQLException throwables) {
+            throw new RuntimeException("Failed to create tables", throwables);
         }
     }
 }
